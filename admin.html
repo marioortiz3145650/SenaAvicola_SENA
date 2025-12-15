@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel de Administración - Sistema Avícola SENA</title>
+  <link rel="stylesheet" href="CSS/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+  <div class="dashboard">
+    <header class="header">
+      <img src="IMG/proxy-image.png" alt="Logo SENA" class="logo">
+      Bienvenido Administrador
+    </header>
+    
+    <aside class="sidebar">
+      <nav class="content-sidebar">
+        <button data-view="inicio">Inicio</button>
+        <button data-view="lotes">Lotes</button>
+        <button data-view="produccion">Producción</button>
+        <button data-view="stock">Stock</button>
+        <button data-view="ventas">Ventas</button>
+        <button data-view="usuarios">Usuarios</button>
+        <button data-view="muertes">Muertes</button>
+        <button data-view="vacunas">Vacunas</button>
+        <button onclick="logout()">Cerrar Sesión</button>
+      </nav>
+    </aside>
+
+    <main class="main-area">
+      <div class="dashboard-grid" id="view-inicio">
+        <div class="info1">
+          <div class="stat-card gallinas">
+            <span id="totalGallinas" class="stat-number">0</span>
+            <span class="stat-label">Total de Gallinas</span>
+          </div>
+          <div class="stat-card produccion">
+            <span id="promedioProduccion" class="stat-number">0</span>
+            <span class="stat-label">Promedio de Producción/Gallina</span>
+          </div>
+          <div class="stat-card ventas">
+            <span id="totalVentas" class="stat-number">0</span>
+            <span class="stat-label">Docenas de Huevos Vendidos</span>
+          </div>
+          <div class="stat-card eficiencia">
+            <span id="eficiencia" class="stat-number">0%</span>
+            <span class="stat-label">Eficiencia de Ventas</span>
+          </div>
+        </div>
+
+        <div class="graphic1">
+          <div class="chart-container">
+            <h3 class="chart-title">Producción Diaria de Huevos</h3>
+            <canvas id="produccionChart"></canvas>
+          </div>
+        </div>
+
+        <div class="graphic2">
+  <div class="chart-container">
+    <h3 class="chart-title">Eficiencia de Ventas</h3>
+    <div class="full-circle-progress" id="fullCircleProgress">
+      <svg width="160" height="160" viewBox="0 0 160 160">
+        <circle cx="80" cy="80" r="70" fill="none" stroke="#ddd" stroke-width="10" />
+        <circle cx="80" cy="80" r="70" fill="none" stroke="#4CAF50" stroke-width="10" stroke-dasharray="0 440" id="progressCircle" />
+      </svg>
+      <span id="percentageValue">0%</span>
+    </div>
+  </div>
+</div>
+
+        <div class="graphic3">
+        <div class="chart-container">
+            <h3 class="chart-title">Estado de Huevos</h3>
+            <canvas id="estadoHuevosChart"></canvas>
+        </div>
+        </div>
+
+        <div class="info5">
+          Cada huevo que produces no es solo un alimento… es el resultado de tu dedicación,
+           el fruto de tu esfuerzo diario y la semilla de un futuro más sostenible. ¡Seguí
+            poniendo el corazón en cada galpón, porque Colombia se alimenta con tu trabajo!
+        </div>
+
+        <footer class="footer">Laying Hens SENA © 2025</footer>
+      </div>
+
+      <div class="content-section" id="view-lotes" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Control de Lotes</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Registro de Lotes</h3>
+              <form id="formLotes">
+                <label for="idLote">ID Lote:</label>
+                <input type="text" id="idLote" name="idLote" required />
+                <label for="nombreLote">Nombre del Lote:</label>
+                <input type="text" id="nombreLote" name="nombreLote" required />
+                <label for="numeroGallinas">Número de Gallinas:</label>
+                <input type="number" id="numeroGallinas" name="numeroGallinas" required />
+                <label for="tipoGallinas">Tipo de Gallinas:</label>
+                <input type="text" id="tipoGallinas" name="tipoGallinas" required />
+                <button type="submit">Agregar Lote</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Lotes Registrados</h3>
+              <table id="tableLotes">
+                <thead>
+                  <tr>
+                    <th>ID Lote</th>
+                    <th>Nombre del Lote</th>
+                    <th>Número de Gallinas</th>
+                    <th>Tipo de Gallinas</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" id="view-produccion" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Registro de Producción</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Producción de Huevos</h3>
+              <form id="formProduccion">
+                <label for="fechaProduccion">Fecha de Producción:</label>
+                <input type="date" id="fechaProduccion" name="fechaProduccion" required />
+                <label for="cantidadHuevos">Cantidad de Huevos:</label>
+                <input type="number" id="cantidadHuevos" name="cantidadHuevos" required />
+                <label for="tipoHuevos">Tipo de Huevos:</label>
+                <input type="text" id="tipoHuevos" name="tipoHuevos" required />
+                <button type="submit">Registrar Producción</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Producción Registrada</h3>
+              <table id="tableProduccion">
+                <thead>
+                  <tr>
+                    <th>Fecha de Producción</th>
+                    <th>Cantidad</th>
+                    <th>Tipo</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" id="view-muertes" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Control de Muertes</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Registro de Muertes de Gallinas</h3>
+              <form id="formMuertes">
+                <label for="fechaMuerte">Fecha de Muerte:</label>
+                <input type="date" id="fechaMuerte" name="fechaMuerte" required />
+                <label for="cantidadMuertes">Cantidad de Muertes:</label>
+                <input type="number" id="cantidadMuertes" name="cantidadMuertes" required />
+                <label for="causaMuerte">Causa de la Muerte:</label>
+                <input type="text" id="causaMuerte" name="causaMuerte" required />
+                <button type="submit">Registrar Muerte</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Registro de Muertes</h3>
+              <table id="tableMuertes">
+                <thead>
+                  <tr>
+                    <th>Fecha de Muerte</th>
+                    <th>Cantidad</th>
+                    <th>Causa</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" id="view-stock" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Gestión de Stock</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Registro de Inventario</h3>
+              <form id="formStock">
+                <label for="itemInventario">Ítem:</label>
+                <input type="text" id="itemInventario" name="itemInventario" required />
+                <label for="cantidadInventario">Cantidad:</label>
+                <input type="number" id="cantidadInventario" name="cantidadInventario" required />
+                <label for="unidadInventario">Unidad:</label>
+                <input type="text" id="unidadInventario" name="unidadInventario" required />
+                <button type="submit">Agregar a Stock</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Stock Registrado</h3>
+              <table id="tableStock">
+                <thead>
+                  <tr>
+                    <th>Ítem</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" id="view-vacunas" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Control de Vacunas</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Registro de Vacunas</h3>
+              <form id="formVacunas">
+                <label for="fechaVacuna">Fecha:</label>
+                <input type="date" id="fechaVacuna" name="fechaVacuna" required />
+                <label for="tipoVacuna">Tipo de Vacuna:</label>
+                <input type="text" id="tipoVacuna" name="tipoVacuna" required />
+                <label for="cantidadVacuna">Cantidad de Dosis:</label>
+                <input type="number" id="cantidadVacuna" name="cantidadVacuna" required />
+                <button type="submit">Registrar Vacuna</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Vacunas Registradas</h3>
+              <table id="tableVacunas">
+                <thead>
+                  <tr>
+                    <th>Fecha</th>
+                    <th>Tipo de Vacuna</th>
+                    <th>Cantidad</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" id="view-ventas" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Gestión de Ventas</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Registro de Ventas</h3>
+              <form id="formVentas">
+                <label for="fechaVenta">Fecha de Venta:</label>
+                <input type="date" id="fechaVenta" name="fechaVenta" required />
+                <label for="cantidadVenta">Cantidad (Docenas):</label>
+                <input type="number" id="cantidadVenta" name="cantidadVenta" required />
+                <label for="precioVenta">Precio por Docena:</label>
+                <input type="number" id="precioVenta" name="precioVenta" required />
+                <button type="submit">Registrar Venta</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Ventas Registradas</h3>
+              <table id="tableVentas">
+                <thead>
+                  <tr>
+                    <th>Fecha de Venta</th>
+                    <th>Cantidad (Docenas)</th>
+                    <th>Precio por Docena</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section" id="view-usuarios" style="display: none;">
+        <div class="section-wrapper">
+          <h2 class="section-header">Gestión de Usuarios</h2>
+          <div class="section-content">
+            <div class="form-container">
+              <h3>Registro de Usuarios</h3>
+              <form id="formUsuarios">
+                <label for="usuario">Nombre de Usuario:</label>
+                <input type="text" id="usuario" name="usuario" required />
+                <label for="contrasena">Contraseña:</label>
+                <input type="password" id="contrasena" name="contrasena" required />
+                <label for="rol">Rol:</label>
+                <select id="rol" name="rol" required>
+                  <option value="Administrador">Administrador</option>
+                  <option value="Aprendiz">Aprendiz</option>
+                  <option value="Visitante">Visitante</option>
+                </select>
+                <button type="submit">Agregar Usuario</button>
+                <button type="reset">Limpiar</button>
+              </form>
+            </div>
+            <div class="table-container">
+              <h3>Usuarios Registrados</h3>
+              <table id="tableUsuarios">
+                <thead>
+                  <tr>
+                    <th>Nombre de Usuario</th>
+                    <th>Contraseña</th>
+                    <th>Rol</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

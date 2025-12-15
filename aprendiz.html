@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Aprendiz - Sistema Avícola SENA</title>
+    <link rel="stylesheet" href="CSS/style.css">
+</head>
+<body>
+
+    <div class="dashboard">
+        <header class="header">
+            <img src="IMG/proxy-image.png" alt="Logo SENA" class="logo">
+            Bienvenido Aprendiz
+        </header>
+
+        <aside class="sidebar">
+            <nav class="content-sidebar">
+                <button data-view="inicio">Inicio</button>
+                <button data-view="Clasificacion">Clasificación</button>
+                <button data-view="Muertes">Muertes</button>
+                <button data-view="Stock">Stock</button>
+                <button data-view="Vacunas">Vacunas</button>
+                <button data-view="Ventas">Ventas</button>
+                <button onclick="logout()">Cerrar Sesión</button>
+            </nav>
+        </aside>
+
+        <main class="main-area">
+            <div class="content-section" id="view-inicio">
+                <div class="section-wrapper">
+                    <h2 class="features-title">Funcionalidades Principales</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3 class="feature-title">Clasificación de Huevos</h3>
+                            <p class="feature-description">
+                                Clasifica los huevos automáticamente por su peso en diferentes categorías.
+                            </p>
+                        </div>
+                        <div class="feature-card">
+                            <h3 class="feature-title">Gestión de Stock</h3>
+                            <p class="feature-description">
+                                Lleva un control del inventario de alimento, vitaminas y vacunas.
+                            </p>
+                        </div>
+                        <div class="feature-card">
+                            <h3 class="feature-title">Registro de Muertes</h3>
+                            <p class="feature-description">
+                                Documenta y gestiona las muertes de gallinas y sus causas.
+                            </p>
+                        </div>
+                        <div class="feature-card">
+                            <h3 class="feature-title">Registro de Ventas</h3>
+                            <p class="feature-description">
+                                Registra y muestra las ventas realizadas.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="view-Clasificacion" style="display: none;">
+                <div class="section-wrapper">
+                    <h2 class="section-header">Clasificación de Huevos</h2>
+                    <div class="section-content">
+                        <div class="form-container">
+                            <h3>Clasificador Automático</h3>
+                            <form id="formClasificacion">
+                                <label for="pesoHuevo">Peso del Huevo (en gramos):</label>
+                                <input type="number" id="pesoHuevo" name="pesoHuevo" required step="0.1">
+                                <button type="submit">Clasificar</button>
+                                <p id="resultadoClasificacion" class="feature-description" style="margin-top: 20px;"></p>
+                            </form>
+                        </div>
+                        <div class="table-container">
+                            <h3>Historial de Clasificaciones</h3>
+                            <table id="tableClasificacion">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Peso (g)</th>
+                                        <th>Categoría</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="view-Muertes" style="display: none;">
+                <div class="section-wrapper">
+                    <h2 class="section-header">Control de Muertes</h2>
+                    <div class="section-content">
+                        <div class="form-container">
+                            <h3>Registro de Muertes de Gallinas</h3>
+                            <form id="formMuertes">
+                                <label for="fechaMuerte">Fecha de Muerte:</label>
+                                <input type="date" id="fechaMuerte" name="fechaMuerte" required />
+                                <label for="cantidadMuertes">Cantidad de Muertes:</label>
+                                <input type="number" id="cantidadMuertes" name="cantidadMuertes" required />
+                                <label for="causaMuerte">Causa de la Muerte:</label>
+                                <input type="text" id="causaMuerte" name="causaMuerte" required />
+                                <button type="submit">Registrar Muerte</button>
+                                <button type="reset">Limpiar</button>
+                            </form>
+                        </div>
+                        <div class="table-container">
+                            <h3>Registro de Muertes</h3>
+                            <table id="tableMuertes">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha de Muerte</th>
+                                        <th>Cantidad</th>
+                                        <th>Causa</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="view-Stock" style="display: none;">
+                <div class="section-wrapper">
+                    <h2 class="section-header">Gestión de Stock</h2>
+                    <div class="section-content">
+                        <div class="form-container">
+                            <h3>Registro de Inventario</h3>
+                            <form id="formStock">
+                                <label for="itemInventario">Ítem:</label>
+                                <input type="text" id="itemInventario" name="itemInventario" required />
+                                <label for="cantidadInventario">Cantidad:</label>
+                                <input type="number" id="cantidadInventario" name="cantidadInventario" required />
+                                <label for="unidadInventario">Unidad:</label>
+                                <input type="text" id="unidadInventario" name="unidadInventario" required />
+                                <button type="submit">Agregar a Stock</button>
+                                <button type="reset">Limpiar</button>
+                            </form>
+                        </div>
+                        <div class="table-container">
+                            <h3>Stock Registrado</h3>
+                            <table id="tableStock">
+                                <thead>
+                                    <tr>
+                                        <th>Ítem</th>
+                                        <th>Cantidad</th>
+                                        <th>Unidad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="view-Vacunas" style="display: none;">
+                <div class="section-wrapper">
+                    <h2 class="section-header">Control de Vacunas</h2>
+                    <div class="section-content">
+                        <div class="form-container">
+                            <h3>Registro de Vacunas</h3>
+                            <form id="formVacunas">
+                                <label for="fechaVacuna">Fecha:</label>
+                                <input type="date" id="fechaVacuna" name="fechaVacuna" required />
+                                <label for="tipoVacuna">Tipo de Vacuna:</label>
+                                <input type="text" id="tipoVacuna" name="tipoVacuna" required />
+                                <label for="cantidadVacuna">Cantidad de Dosis:</label>
+                                <input type="number" id="cantidadVacuna" name="cantidadVacuna" required />
+                                <button type="submit">Registrar Vacuna</button>
+                                <button type="reset">Limpiar</button>
+                            </form>
+                        </div>
+                        <div class="table-container">
+                            <h3>Vacunas Registradas</h3>
+                            <table id="tableVacunas">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha</th>
+                                        <th>Tipo de Vacuna</th>
+                                        <th>Cantidad</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="view-Ventas" style="display: none;">
+                <div class="section-wrapper">
+                    <h2 class="section-header">Gestión de Ventas</h2>
+                    <div class="section-content">
+                        <div class="form-container">
+                            <h3>Registro de Ventas</h3>
+                            <form id="formVentas">
+                                <label for="fechaVenta">Fecha de Venta:</label>
+                                <input type="date" id="fechaVenta" name="fechaVenta" required />
+                                <label for="cantidadVenta">Cantidad (Docenas):</label>
+                                <input type="number" id="cantidadVenta" name="cantidadVenta" required />
+                                <label for="precioVenta">Precio por Docena:</label>
+                                <input type="number" id="precioVenta" name="precioVenta" required />
+                                <button type="submit">Registrar Venta</button>
+                                <button type="reset">Limpiar</button>
+                            </form>
+                        </div>
+                        <div class="table-container">
+                            <h3>Ventas Registradas</h3>
+                            <table id="tableVentas">
+                                <thead>
+                                    <tr>
+                                        <th>Fecha de Venta</th>
+                                        <th>Cantidad (Docenas)</th>
+                                        <th>Precio por Docena</th>
+                                        <th>Acciones</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/aprendiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panel de Visitante - Sistema Avícola SENA</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+</head>
+<body>
+
+    <div class="dashboard">
+        <header class="header">
+            <img src="IMG/proxy-image.png" alt="Logo SENA" class="logo">
+            Bienvenido Visitante
+        </header>
+
+        <aside class="sidebar">
+            <nav class="content-sidebar">
+                <button data-view="inicio">Inicio</button>
+                <button data-view="Estadisticas">Estadísticas</button>
+                <button onclick="logout()">Cerrar Sesión</button>
+            </nav>
+        </aside>
+
+        <main class="main-area">
+            <div class="content-section" id="view-inicio">
+                <div class="section-wrapper">
+                    <h2 class="features-title">Funcionalidades Principales</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <h3 class="feature-title">Estadísticas de Granja</h3>
+                            <p class="feature-description">
+                                Visualiza el rendimiento de la granja a través de gráficas y datos clave.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section" id="view-Estadisticas" style="display: none;">
+                <div class="section-wrapper">
+                    <h2 class="section-header">Estadísticas</h2>
+                    <div class="section-content">
+                        <div class="stats-summary">
+                            <div class="stat-card">
+                                <span id="totalGallinas" class="stat-number">0</span>
+                                <span class="stat-label">Total de Gallinas</span>
+                            </div>
+                            <div class="stat-card">
+                                <span id="promedioProduccion" class="stat-number">0</span>
+                                <span class="stat-label">Promedio de Producción/Gallina</span>
+                            </div>
+                            <div class="stat-card">
+                                <span id="totalVentas" class="stat-number">0</span>
+                                <span class="stat-label">Huevos Vendidos (Docenas)</span>
+                            </div>
+                            <div class="stat-card">
+                                <span id="eficiencia" class="stat-number">0%</span>
+                                <span class="stat-label">Eficiencia de Producción</span>
+                            </div>
+                        </div>
+                        <div class="charts-container">
+                            <div class="chart-container">
+                                <h3 class="chart-title">Producción Diaria de Huevos</h3>
+                                <canvas id="produccionChart" width="400" height="200"></canvas>
+                            </div>
+                            <div class="chart-container">
+                                <h3 class="chart-title">Ventas Durante la Semana</h3>
+                                <canvas id="ventasChart" width="400" height="200"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/visitante.js"></script>
+</body>
+</html>
