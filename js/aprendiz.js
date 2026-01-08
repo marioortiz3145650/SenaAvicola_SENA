@@ -32,7 +32,22 @@ document.addEventListener('DOMContentLoaded', () => {
         btn.addEventListener('click', () => {
             const view = btn.getAttribute('data-view');
             if (view) showView(view);
+            // Close sidebar on mobile
+            if (window.innerWidth <= 768) {
+                const sidebar = document.querySelector('.sidebar');
+                const hamburger = document.getElementById('hamburger');
+                sidebar.classList.remove('open');
+                hamburger.classList.remove('open');
+            }
         });
+    });
+
+    // --- Toggle sidebar ---
+    const hamburger = document.getElementById('hamburger');
+    const sidebar = document.querySelector('.sidebar');
+    hamburger.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        hamburger.classList.toggle('open');
     });
 
     window.addEventListener('load', () => {

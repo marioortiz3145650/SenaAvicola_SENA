@@ -51,6 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       const view = btn.getAttribute('data-view');
       showView(view);
+      // Close sidebar on mobile
+      if (window.innerWidth <= 768) {
+        sidebar.classList.remove('open');
+        hamburger.classList.remove('open');
+      }
     });
   });
 
@@ -311,6 +316,14 @@ function initCharts() {
   updateAllTables();
   updateSummaryStats();
   initCharts();
+
+  // --- Toggle sidebar ---
+  const hamburger = document.getElementById('hamburger');
+  const sidebar = document.querySelector('.sidebar');
+  hamburger.addEventListener('click', () => {
+    sidebar.classList.toggle('open');
+    hamburger.classList.toggle('open');
+  });
 
   window.logout = function() {
       sessionStorage.clear();
